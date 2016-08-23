@@ -1,4 +1,4 @@
-### 自己在公司实习花了三个星期从开始matlab-opencv再转战到opengl,无数次的验证，才有这样的效果，所以为尊重本人的劳动成果，此源码我隐去shader(glsl),如有想要研究的，请e-mail me！！！
+### 我隐去shader(glsl),如有想要研究的，请e-mail me！！！
 
 
 
