@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
@@ -28,7 +27,7 @@ GLdouble eqn[4] = {0.0,0.0,1.0,0.0};//半球切片
 #define LOAD_BGRA    0
 #define LOAD_YUV420P 1          //读取的格式选择，
 
-const int pixel_w = 1440, pixel_h = 1080;   //视频的分辨率
+const int pixel_w = 1440, pixel_h =1080 ;   //视频的分辨率
 /*******************************************************************************************/
 //每个像素的bit
 #if LOAD_BGRA
@@ -79,7 +78,7 @@ void CONVERT_YUV420PtoRGB24(unsigned char* yuv_src,unsigned char* rgb_dst,int nW
 			// Cacular the R,G,B values
 			// Method 1
 			R = CONVERT_ADJUST((Y + (1.4075 * (V - 128))));
-			G = CONVERT_ADJUST((Y - (0.3455 * (U - 128) - 0.7169 * (V - 128))));
+			G = CONVERT_ADJUST((Y - 0.3455 * (U - 128) - 0.7169 * (V - 128)));
 			B = CONVERT_ADJUST((Y + (1.7790 * (U - 128))));
 			/*
 			// The following formulas are from MicroSoft' MSDN
@@ -190,12 +189,12 @@ int main(int argc, char* argv[])
 	glutSpecialFunc(processSpecialKeys);
 	glutKeyboardFunc(processNormalKeys);
 	//开始OPENGL的循环
-	glutDisplayFunc(&display); 
+	glutDisplayFunc(display); 
 	//glutDisplayFunc函数用于注册一个绘图函数， 这样操作系统在必要时刻就会对窗体进行重新绘制操作。类似于windows程序设计中处理WM_PAINT消息。具体来说呢，就是设置一个函数当需要进行画图时就调用这个函数如： glutDisplayFunc(display);
 
 	//glutIdleFunc(display);//glutIdleFunc设置全局的回调函数，当没有窗口事件到达时，GLUT程序功能可以执行后台处理任务或连续动画。如果启用，这个idle function会被不断调用，直到有窗口事件发生。
 
-	glutTimerFunc(1, timeFunc, 0); //帧率
+	glutTimerFunc(100, timeFunc, 0); //帧率
 	glutMainLoop();//glutMainLoop进入GLUT事件处理循环，让所有的与“事件”有关的函数调用无限循环。
 
 	return 0;
@@ -276,23 +275,14 @@ void display(void)
 	CONVERT_YUV420PtoRGB24(buffer,buffer_convert,pixel_w,pixel_h);
 		glBindTexture(GL_TEXTURE_2D, G_texNameArray[0]);
 		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pixel_w , pixel_h, GL_RGB, GL_UNSIGNED_BYTE,buffer_convert);
+
 #endif
 
     glClearColor(1.0f,1.0f,1.0f,0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-	//设置光照、材质参数
-	//glLightfv(GL_LIGHT0, GL_POSITION, G_vLit0Position);		//设置光源的位置
-	//glLightfv(GL_LIGHT0, GL_AMBIENT, G_vLit0Ambient);
-	//glLightfv(GL_LIGHT0, GL_DIFFUSE, G_vLit0Diffuse);
-	//glLightfv(GL_LIGHT0, GL_SPECULAR, G_vLit0Specular);
-	//glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, G_vMaterialAmbient);
-	//glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, G_vMaterialDiffuse);
-	//glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, G_vMaterialSpecular);
-	//glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, G_iShininess);
 
-	//坐标中心向Z轴平移-G_fDistance(使坐标中心位于摄像机前方)，并设置旋转角度
     glTranslatef(G_RLDistance, G_UDDistance, -G_fDistance);
 	glRotatef(G_fAngle_horizon, 0.0f, 1.0f, 0.0f);
 	glRotatef(G_fAngle_vertical, 1.0f, 0.0f, 0.0f);
@@ -325,7 +315,8 @@ void display(void)
 	
 
 	/***********************************************************************************/
-	glutSolidSphere(G_scale,200,200);
+	glutSolidSphere(G_scale,50,50);
+	glClipPlane(GL_CLIP_PLANE0,eqn);
 	/***********************************************************************************/
 /*void glutSolidSphere(GLdouble radius , GLint slices , GLint stacks);
 radius
