@@ -257,7 +257,7 @@ void display(void)
    
     if (fread(buffer, 1, pixel_w*pixel_h*bpp/8, fp) != pixel_w*pixel_h*bpp/8){
         // Loop
-        fseek(fp, 0, SEEK_SET);
+        fseek(fp, 0, SEEK_SET);//
         fread(buffer, 1, pixel_w*pixel_h*bpp/8, fp);
     }
 
