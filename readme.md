@@ -1,6 +1,6 @@
 
 ### 2021/11/08
-用python写了双鱼眼拼接: https://mianbaoduo.com/o/bread/YZyZlJY=
+用python写了双鱼眼拼接(比较baseline:sift+特征匹配+支持模版匹配+最佳缝合线算法): https://mianbaoduo.com/o/bread/YZyZlJY=
 ### 2017/3/30更新
    
   这个程序还非常不完善：后面有时间还想补充的功能：最近几个月会移植到ubuntu加opencv.
